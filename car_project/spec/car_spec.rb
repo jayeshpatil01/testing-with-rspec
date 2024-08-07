@@ -11,7 +11,11 @@ describe 'Car' do
     # end
     # This is was let actually doese
 
-    let(:car) { Car.new }   # lazy initialization 
+    subject { Car.new }
+
+    # use "subject" instead of "let"
+    # if variable is subject of example
+    # let(:car) { Car.new }   # lazy initialization 
     # let!(:car) { Car.new }  # eager initializes
 
     # "let" is better than "before" for setting up instance variables
@@ -20,22 +24,22 @@ describe 'Car' do
     # end
 
     it "allows reading and writing for :make" do
-      car.make = "Test"
-      expect(car.make).to eq("Test")
+      subject.make = "Test"
+      expect(subject.make).to eq("Test")
     end
 
     it "allows reading and writing for :year" do
-      car.year = 2005
-      expect(car.year).to eq(2005)
+      subject.year = 2005
+      expect(subject.year).to eq(2005)
     end
 
     it "allows reading and writing for :color" do
-      car.color = 'Red'
-      expect(car.color).to eq('Red')
+      subject.color = 'Red'
+      expect(subject.color).to eq('Red')
     end
 
     it "allows reading for wheels" do
-      expect(car.wheels).to eq(4)
+      expect(subject.wheels).to eq(4)
     end
 
     it "allows writing for :doors"
