@@ -3,34 +3,35 @@ require_relative '../lib/car'
 describe 'Car' do
 
   describe 'attributes' do
-
-    before(:example) do
-      @car = Car.new
-    end
-
-    it "allows reading and writing for :make" do
-      @car.make = "Test"
-      expect(@car.make).to eq("Test")
+    xit "allows reading and writing for :make" do
+      car = Car.new
+      car.make = "Test"
+      expect(car.make).to eq("Test")
     end
 
     it "allows reading and writing for :year" do
-      @car.year = 2005
-      expect(@car.year).to eq(2005)
+      skip 'Debugging a problem'
+      car = Car.new
+      car.year = 2005
+      expect(car.year).to eq(2005)
     end
 
     it "allows reading and writing for :color" do
-      @car.color = 'Red'
-      expect(@car.color).to eq('Red')
+      pending('Debugging a problem')
+      car = Car.new
+      car.color = 'Red'
+      expect(car.color).to eq('Red1')
     end
 
     it "allows reading for wheels" do
-      expect(@car.wheels).to eq(4)
+      car = Car.new
+      expect(car.wheels).to eq(4)
     end
 
     it "allows writing for :doors"
   end
 
-  describe ".colors" do
+  xdescribe ".colors" do
     it "returs an array of colors" do
       c = ['blue', 'black', 'red', 'green']
       expect(Car.colors).to match_array(c)
