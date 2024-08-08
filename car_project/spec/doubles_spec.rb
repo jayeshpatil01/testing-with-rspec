@@ -137,4 +137,80 @@ describe 'Doubles' do
       dbl.step_2
     end
   end
+
+  context 'with argument constraints' do
+    it 'expects arguments will match' do
+      dbl = double("Customer List")
+      expect(dbl).to receive(:sort).with('name')
+      dbl.sort('name')
+    end
+
+    it 'passes when any arguments are allowed' do
+      dbl = double("Customer List")
+      # The default if you don't use #with
+      expect(dbl).to receive(:sort).with(any_args)
+      dbl.sort('name')
+    end
+
+    it 'works the same with multiple arguments' do
+      dbl = double("Customer List")
+      expect(dbl).to receive(:sort).with('name', 'asc', true)
+      dbl.sort('name', 'asc', true)
+    end
+
+    it 'allows constraining only some arguments' do
+      dbl = double("Customer List")
+      expect(dbl).to receive(:sort).with('name', anything, anything)
+      dbl.sort('name', 'asc', true)
+    end
+
+    it 'allows using other matchers' do
+      dbl = double("Customer List")
+      expect(dbl).to receive(:sort).with(
+        a_string_starting_with('n'),
+        an_object_eq_to('asc') | an_object_eq_to('desc'),
+        boolean
+      )
+      dbl.sort('name', 'asc', true)
+    end
+  end
+
+  context 'with message count constrains' do
+    it 'allows constraints on message count' do
+      class Cart
+        def initialize
+          @items = []
+        end
+
+        def add_item(id)
+          @items << id
+        end
+
+        def restock_item(id)
+          @items.delete(id)
+        end
+
+        def empty
+          @items.each { |id| restock_item(id) }
+        end
+      end
+
+      cart = Cart.new
+      cart.add_item(35)
+      cart.add_item(3454)
+
+      expect(cart).to receive(:restock_item).twice
+      cart.empty
+    end
+
+    it 'allows using at_least/at_most' do
+      post = double('BlogPost')
+      expect(post).to receive(:like).at_least(3).times
+      post.like(:user => 'A')
+      post.like(:user => 'B')
+      post.like(:user => 'C')
+      post.like(:user => 'D')
+    end
+
+  end
 end
